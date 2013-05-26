@@ -1,0 +1,41 @@
+body{
+	font-family: Arial, Helvetica, sans-serif;
+	background: #444;
+}
+
+canvas {
+	border:1px #e1e1e1 solid;
+	box-shadow: 0px 0px 12px 2px #e1e1e1;
+	position:absolute;
+	top:10%;
+	left:19%;
+}
+
+.header h1, .button{
+	position: absolute;
+    top: 2%;
+    left: 50%;
+}
+
+h1{
+	color: #FFF;
+    margin: 0 0 0 -80px;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover{
+	cursor: pointer;
+}
+
+.button {
+	padding: 10px 5px;
+	background: #4479BA;
+	border-radius: 4px;
+	border: solid 1px #20538D;
+	color: #FFF;
+	font-weight: bold;
+    left: 19%;
+}
