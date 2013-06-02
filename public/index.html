@@ -7,16 +7,19 @@
     <script src="http://backbonejs.org/backbone-min.js"></script>
     <script src="/omni.js"></script>
 	
-	<script type="text/javascript" src="pad.js"></script>
+	<script type="text/javascript" src="script-pad-backbone.js"></script>
+	<!-- <script type="text/javascript" src="pad.js"></script> -->
 	<link rel="stylesheet" href="style.css"/>
 </head>
 <body>
 	<div class="header">
-		<a id="b_clear" class="button">Clear</a>
-		<h1>Sketch Pad</h1>
+		<a id="b_clear" class="button no-select">Clear</a>
+		<h1 class="no-select">Sketch Pad</h1>
 	</div>
-	<canvas id="sketchcan">
-	Your browser doesnt support HTML5 canvas
-	</canvas>
+	<div class="sketch-container">
+		<canvas id="sketchcan">
+		Your browser doesnt support HTML5 canvas
+		</canvas>
+	</div>
 </body>
 </html>

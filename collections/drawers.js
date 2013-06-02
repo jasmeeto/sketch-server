@@ -1,4 +1,5 @@
 var Omni = require("omni");
+var Drawer = require("../models/drawer");
 
 module.exports = Omni.Collection.extend({
 	model: Drawer,

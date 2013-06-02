@@ -30,6 +30,12 @@ a:hover{
 	cursor: pointer;
 }
 
+.no-select {
+	user-select: none;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+}
+
 .button {
 	padding: 10px 5px;
 	background: #4479BA;
