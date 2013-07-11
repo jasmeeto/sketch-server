@@ -4,8 +4,10 @@ module.exports = Omni.Model.extend({
 	defaults: {
 		x:0,
 		y:0,
+		prevX:0,
+		prevY:0,
 		clicked: false,
-		name: "Drawer",
+		moving: false,
 		color: "#FFF"
 	},
 	readPermission: function(connection, property){

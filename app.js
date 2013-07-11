@@ -9,7 +9,8 @@ var collections = {
 
 var events = {
 	enter: require("./events/enter"),
-	draw: require("./events/draw")
+	draw: require("./events/draw"),
+	disconnect: require("./events/disconnect")
 }
 
-Omni.listen(3001, collections);
+Omni.listen(3001, collections, events);

@@ -11,6 +11,17 @@ function getRandomColor() {
 
 module.exports = {
 	run: function(connection, collections, data){
-		var newID = collections.drawers.nextID();	
+		var newID = collections.drawers.nextID();
+
+		var newDrawer = new Drawer({
+			id: newID,
+			color: getRandomColor()
+		});	
+
+		connection.drawer = newDrawer;
+		collections.drawers.add(newDrawer);
+		connection.sync();
+
+		return {success: "Logged in!", id: newID};
 	}
 }
