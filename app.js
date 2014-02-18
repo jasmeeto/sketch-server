@@ -12,4 +12,4 @@ var events = {
 	disconnect: require("./events/disconnect")
 }
 
-var server = Omni.listen(3001, collections, events);
+var server = Omni.listen(process.env.PORT || 5000, collections, events);
