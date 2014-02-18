@@ -9,8 +9,7 @@ var collections = {
 
 var events = {
 	enter: require("./events/enter"),
-	draw: require("./events/draw"),
 	disconnect: require("./events/disconnect")
 }
 
-Omni.listen(3001, collections, events);
+var server = Omni.listen(3001, collections, events);

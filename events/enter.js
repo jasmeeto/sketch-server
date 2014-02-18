@@ -20,7 +20,7 @@ module.exports = {
 
 		connection.drawer = newDrawer;
 		collections.drawers.add(newDrawer);
-		connection.sync();
+		connection.recheckAllPermissions();
 
 		return {success: "Logged in!", id: newID};
 	}

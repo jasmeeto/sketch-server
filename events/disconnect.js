@@ -3,6 +3,6 @@ module.exports = {
 		if(connection.drawer){
 			collections.drawers.remove(connection.drawer);
 		}
-		connection.sync();
-;	}
+		connection.recheckAllPermissions();
+	}
 }

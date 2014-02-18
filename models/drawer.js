@@ -13,7 +13,7 @@ module.exports = Omni.Model.extend({
 	readPermission: function(connection, property){
 		return true;
 	},
-	writePermisstion: function(connection, property){
+	writePermission: function(connection, property){
 		return true;
 	}
 });

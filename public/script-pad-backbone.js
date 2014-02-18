@@ -22,9 +22,9 @@ Omni.ready(function(){
 		events:{
 			"mousedown #sketchcan": "onMouseDown",
 			"mouseup #sketchcan": "onMouseUp",
-			"mousemove #sketchcan": "onMouseMove"
+			"mousemove #sketchcan": "onMouseMove",
+			"click #b_clear": "drawCanvas"
 		},
-
 		initialize: function(){
 			Omni.trigger("enter",{},
 				function(data){
@@ -79,6 +79,8 @@ Omni.ready(function(){
 					clicked: this.pos.clicked,
 					moving: this.pos.moving
 				}
+				newAttr.prevX = newAttr.x;
+				newAttr.prevY = newAttr.y;
 
 				if(newAttr.x != this.pos.x || newAttr.y != this.pos.y){
 					newAttr.prevX = newAttr.x;
@@ -120,7 +122,6 @@ Omni.ready(function(){
 				this.context.lineTo(x,y);
 				this.context.stroke();
 			}
-
 		},
 		setRequestAnimFrame: function(){
 			window.requestAnimationFrame = window.requestAnimationFrame ||
