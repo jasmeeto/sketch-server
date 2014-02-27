@@ -4,10 +4,12 @@ var Drawers = require("./collections/drawers");
 var drawers = new Drawers();
 
 var collections = {
-	drawers: drawers
+    drawers: drawers,
+    clearToggle: new Omni.Collection({clear:false})
 }
 
 var events = {
+    clear: require("./events/clear"),
 	enter: require("./events/enter"),
 	disconnect: require("./events/disconnect")
 }
