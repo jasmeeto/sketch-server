@@ -1,4 +1,4 @@
-Omni.ready(function(){
+$(function(){
 	var Pad = {
 		drawer: null,
 		events: {},
@@ -26,28 +26,33 @@ Omni.ready(function(){
 			"click #b_clear": "drawCanvas"
 		},
 		initialize: function(){
-			Omni.trigger("enter",{},
-				function(data){
-					if(data.error != undefined) alert(data.error);
-					if(data.success != undefined && data.id != undefined){
-						Pad.drawer = Omni.Collections.drawers.findWhere({id: data.id});
+			var _this = this;
+			Omni.ready(function() {
+				Omni.trigger("enter",{},
+					function(data){
+						if(data.error != undefined) alert(data.error);
+						if(data.success != undefined && data.id != undefined){
+							Pad.drawer = Omni.Collections.drawers.findWhere({id: data.id});
+							Omni.Collections.drawers.each(function(drawer) {
+								drawer.on("change", _this.renderDrawer.bind(_this, drawer));
+							});
+							Omni.Collections.drawers.on("add", function(drawer) {
+								drawer.on("change", _this.renderDrawer.bind(_this, drawer));
+							});
+						}
 					}
-				}
-			);
-
-			this.setRequestAnimFrame();
+				);
+			});
 
 			can = $("#sketchcan")[0]
 			this.context = can.getContext("2d");
 
-            $(window).on("resize", this.render.bind(this));
+            $(window).on("resize", this.drawCanvas.bind(this));
 
 			this.drawCanvas();
 
 			this.lastTime = 0;
 			this.pos = {};
-
-			this.gameLoop();
 		},
 		drawCanvas: function(){
 			this.context.canvas.width  = window.innerWidth *2/3;
@@ -58,20 +63,21 @@ Omni.ready(function(){
 		onMouseUp: function(event){
 			this.pos.clicked = false;
 			this.pos.moving = false;
+			this.updateMousePosOnModel();
 		},
 		onMouseDown: function(event){
 			this.pos.clicked = true;
 			this.pos.x = event.offsetX ? event.offsetX : (event.clientX - event.target.offsetLeft);
 			this.pos.y = event.offsetY ? event.offsetY : (event.clientY - event.target.offsetTop);
+			this.updateMousePosOnModel();
 		},
 		onMouseMove: function(event){
 			this.pos.moving = true;
 			this.pos.x = event.offsetX ? event.offsetX : (event.clientX - event.target.offsetLeft);
 			this.pos.y = event.offsetY ? event.offsetY : (event.clientY - event.target.offsetTop);
+			this.updateMousePosOnModel();
 		},
-		gameLoop: function(){
-			var dt = Date.now() - this.lastTime;
-
+		updateMousePosOnModel: function() {
 			if(Pad.drawer != undefined){
 				var newAttr = {
 					x: Pad.drawer.get('x'),
@@ -91,15 +97,6 @@ Omni.ready(function(){
 
 				Pad.drawer.set(newAttr);
 			}
-
-			this.render();
-
-			this.lastTime = Date.now();
-			requestAnimationFrame(this.gameLoop.bind(this));
-		},
-		render: function(){
-			// this.drawCanvas();
-			Omni.collections.drawers.each(this.renderDrawer, this);
 		},
 		renderDrawer: function(drawer){
 			var x = drawer.get('x');
@@ -122,15 +119,6 @@ Omni.ready(function(){
 				this.context.lineTo(x,y);
 				this.context.stroke();
 			}
-		},
-		setRequestAnimFrame: function(){
-			window.requestAnimationFrame = window.requestAnimationFrame ||
-										   window.mozRequestAnimationFrame ||
-										   window.webkitRequestAnimationFrame ||
-										   window.msRequestAnimationFrame ||
-										   function (callback) {
-										   	  setTimeout(callback, 1000 / 60);
-										   }
 		}
 	});
 
