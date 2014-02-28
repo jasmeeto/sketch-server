@@ -23,6 +23,9 @@ $(function(){
 			"mousedown #sketchcan": "onMouseDown",
 			"mouseup #sketchcan": "onMouseUp",
 			"mousemove #sketchcan": "onMouseMove",
+			"touchstart #sketchcan": "onMouseDown",
+			"touchend #sketchcan": "onMouseUp",
+			"touchmove #sketchcan": "onMouseMove",
 			"click #b_clear": "drawCanvas"
 		},
 		initialize: function(){
@@ -60,22 +63,34 @@ $(function(){
   			this.context.fillStyle = "#F1F1F1";
 			this.context.fillRect(0,0, this.context.canvas.width, this.context.canvas.height);
 		},
+		findCoords: function(event) {
+			if (event.originalEvent.touches && event.originalEvent.touches.length > 0) {
+				event.offsetX = event.originalEvent.touches[0].clientX - event.target.offsetLeft;
+				event.offsetY = event.originalEvent.touches[0].clientY - event.target.offsetTop;
+			}
+			return event;
+		},
 		onMouseUp: function(event){
+			event = this.findCoords(event);
 			this.pos.clicked = false;
 			this.pos.moving = false;
 			this.updateMousePosOnModel();
 		},
 		onMouseDown: function(event){
+			event = this.findCoords(event);
 			this.pos.clicked = true;
 			this.pos.x = event.offsetX ? event.offsetX : (event.clientX - event.target.offsetLeft);
 			this.pos.y = event.offsetY ? event.offsetY : (event.clientY - event.target.offsetTop);
 			this.updateMousePosOnModel();
 		},
 		onMouseMove: function(event){
+			event = this.findCoords(event);
 			this.pos.moving = true;
 			this.pos.x = event.offsetX ? event.offsetX : (event.clientX - event.target.offsetLeft);
 			this.pos.y = event.offsetY ? event.offsetY : (event.clientY - event.target.offsetTop);
 			this.updateMousePosOnModel();
+
+			event.preventDefault();
 		},
 		updateMousePosOnModel: function() {
 			if(Pad.drawer != undefined){
