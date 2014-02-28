@@ -26,7 +26,7 @@ $(function(){
 			"touchstart #sketchcan": "onMouseDown",
 			"touchend #sketchcan": "onMouseUp",
 			"touchmove #sketchcan": "onMouseMove",
-			"click #b_clear": "drawCanvas"
+			"click #b_clear": "handleClear"
 		},
 		initialize: function(){
 			var _this = this;
@@ -42,6 +42,9 @@ $(function(){
 							Omni.Collections.drawers.on("add", function(drawer) {
 								drawer.on("change", _this.renderDrawer.bind(_this, drawer));
 							});
+                            Omni.Collections.clearToggle.on('change', function(){
+                                _this.clearCanvas(); 
+                            });
 						}
 					}
 				);
@@ -50,14 +53,17 @@ $(function(){
 			can = $("#sketchcan")[0]
 			this.context = can.getContext("2d");
 
-            $(window).on("resize", this.drawCanvas.bind(this));
+            $(window).on("resize", this.clearCanvas.bind(this));
 
-			this.drawCanvas();
+			this.clearCanvas();
 
 			this.lastTime = 0;
 			this.pos = {};
 		},
-		drawCanvas: function(){
+        handleClear: function(){
+            Omni.trigger('clear');
+        },
+		clearCanvas: function(){
 			this.context.canvas.width  = window.innerWidth *2/3;
   			this.context.canvas.height = window.innerHeight*3/4;
   			this.context.fillStyle = "#F1F1F1";
