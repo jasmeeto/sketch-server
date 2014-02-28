@@ -53,21 +53,39 @@ $(function(){
 			can = $("#sketchcan")[0]
 			this.context = can.getContext("2d");
 
-            $(window).on("resize", this.clearCanvas.bind(this));
+            $(window).on("resize", this.resizeCanvas.bind(this));
 
-			this.clearCanvas();
+			this.resizeCanvas();
 
 			this.lastTime = 0;
 			this.pos = {};
+			this.throttleTime = 16;
+			this.lastThrottle = 0;
+			this.throttleTimer = null;
 		},
         handleClear: function(){
             Omni.trigger('clear');
         },
-		clearCanvas: function(){
-			this.context.canvas.width  = window.innerWidth *2/3;
-  			this.context.canvas.height = window.innerHeight*3/4;
-  			this.context.fillStyle = "#F1F1F1";
+        loadCanvas: function(dataURL) {
+			// load image from data url
+			var imageObj = new Image();
+			var _this = this;
+			imageObj.onload = function() {
+				_this.context.drawImage(this, 0, 0);
+			};
+
+			imageObj.src = dataURL;
+		},
+		clearCanvas: function() {
+			this.context.fillStyle = "#F1F1F1";
 			this.context.fillRect(0,0, this.context.canvas.width, this.context.canvas.height);
+		},
+		resizeCanvas: function() {
+			var dataURL = this.context.canvas.toDataURL();
+			this.context.canvas.width  = window.innerWidth;
+			this.context.canvas.height = window.innerHeight;
+			this.clearCanvas();
+			this.loadCanvas(dataURL);
 		},
 		findCoords: function(event) {
 			if (event.originalEvent.touches && event.originalEvent.touches.length > 0) {
@@ -83,18 +101,24 @@ $(function(){
 			this.updateMousePosOnModel();
 		},
 		onMouseDown: function(event){
+			if (document.webkitFullscreenEnabled)
+				this.$el[0].webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT)
 			event = this.findCoords(event);
 			this.pos.clicked = true;
 			this.pos.x = event.offsetX ? event.offsetX : (event.clientX - event.target.offsetLeft);
 			this.pos.y = event.offsetY ? event.offsetY : (event.clientY - event.target.offsetTop);
 			this.updateMousePosOnModel();
 		},
-		onMouseMove: function(event){
+		onMouseMove: function(event, alwaysDraw){
+			if (Date.now() - this.lastThrottle < this.throttleTime) {
+				return;
+			}
+			this.lastThrottle = Date.now();
 			event = this.findCoords(event);
 			this.pos.moving = true;
 			this.pos.x = event.offsetX ? event.offsetX : (event.clientX - event.target.offsetLeft);
 			this.pos.y = event.offsetY ? event.offsetY : (event.clientY - event.target.offsetTop);
-			this.updateMousePosOnModel();
+			this.updateMousePosOnModel(alwaysDraw);
 
 			event.preventDefault();
 		},
@@ -132,7 +156,7 @@ $(function(){
 			}else if(clicked && moving){
 				this.context.beginPath();
 				this.context.strokeStyle = drawer.get('color');
-				this.context.lineWidth = 5.0;
+				this.context.lineWidth = 3.0;
 				this.context.lineCap = "round";
 				this.context.lineJoin = "round";
 
