@@ -43,7 +43,7 @@ $(function(){
 								drawer.on("change", _this.renderDrawer.bind(_this, drawer));
 							});
                             Omni.Collections.clearToggle.on('change', function(){
-                                _this.clearCanvas(); 
+                                _this.clearCanvas();
                             });
 						}
 					}
@@ -101,8 +101,6 @@ $(function(){
 			this.updateMousePosOnModel();
 		},
 		onMouseDown: function(event){
-			if (document.webkitFullscreenEnabled)
-				this.$el[0].webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT)
 			event = this.findCoords(event);
 			this.pos.clicked = true;
 			this.pos.x = event.offsetX ? event.offsetX : (event.clientX - event.target.offsetLeft);
@@ -150,13 +148,14 @@ $(function(){
 			var prevY = drawer.get('prevY');
 			var clicked = drawer.get('clicked');
 			var moving = drawer.get('moving');
+			var strokeSize = drawer.get('strokeSize');
 
 			if (clicked && !moving){
 				this.context.fillRect(x, y, 5, 5);
 			}else if(clicked && moving){
 				this.context.beginPath();
 				this.context.strokeStyle = drawer.get('color');
-				this.context.lineWidth = 3.0;
+				this.context.lineWidth = strokeSize;
 				this.context.lineCap = "round";
 				this.context.lineJoin = "round";
 
@@ -168,4 +167,23 @@ $(function(){
 	});
 
 	new PadView({el: $(".sketch-container")});
+
+	// Color the color pickers
+	$(".color-pick").each(function() {
+		$(this).css({
+			background: $(this).data("color")
+		});
+	});
+
+	$(".color-pick").on("click", function() {
+		if (Pad.drawer) {
+			Pad.drawer.set('color', $(this).data('color'));
+			Pad.drawer.set('strokeSize', $(this).data('strokeSize'));
+		}
+	});
+
+	$(".full-screen").on("click", function() {
+		if (document.webkitFullscreenEnabled)
+			$(".sketch-container")[0].webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);
+	});
 });
