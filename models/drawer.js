@@ -8,7 +8,8 @@ module.exports = Omni.Model.extend({
 		prevY:0,
 		clicked: false,
 		moving: false,
-		color: "#FFF"
+		color: "#FFF",
+		strokeSize: 3.0
 	},
 	readPermission: function(connection, property){
 		return true;
