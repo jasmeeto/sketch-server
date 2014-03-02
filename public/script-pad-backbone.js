@@ -53,7 +53,10 @@ $(function(){
 			can = $("#sketchcan")[0]
 			this.context = can.getContext("2d");
 
-            $(window).on("resize", this.resizeCanvas.bind(this));
+            $(window).on("resize", function(){
+                clearTimeout(_this.resizeTimer);
+                _this.resizeTimer = setTimeout(_this.resizeCanvas.bind(_this), 100);
+            });
 
 			this.resizeCanvas();
 
@@ -62,6 +65,7 @@ $(function(){
 			this.throttleTime = 16;
 			this.lastThrottle = 0;
 			this.throttleTimer = null;
+			this.resizeTimer = null;
 		},
         handleClear: function(){
             Omni.trigger('clear');
