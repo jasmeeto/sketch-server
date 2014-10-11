@@ -30,8 +30,9 @@ $(function(){
 		},
 		initialize: function(){
 			var _this = this;
+
 			Omni.ready(function() {
-				Omni.trigger("enter",{},
+				Omni.trigger("enter",{width: _this.context.canvas.width, height: _this.context.canvas.height},
 					function(data){
 						if(data.error != undefined) alert(data.error);
 						if(data.success != undefined && data.id != undefined){
@@ -42,15 +43,19 @@ $(function(){
 							Omni.Collections.drawers.on("add", function(drawer) {
 								drawer.on("change", _this.renderDrawer.bind(_this, drawer));
 							});
-                            Omni.Collections.clearToggle.on('change', function(){
-                                _this.clearCanvas();
-                            });
+							Omni.Collections.clearToggle.on('change', function(){
+								_this.clearCanvas();
+							});
+							if(data.dataURL != undefined){
+								_this.loadCanvas(data.dataURL);
+							}
+							$(".overlay").remove();
 						}
 					}
 				);
 			});
 
-			can = $("#sketchcan")[0]
+			var can = $("#sketchcan")[0];
 			this.context = can.getContext("2d");
 
             $(window).on("resize", function(){

@@ -3,6 +3,7 @@
 	"version":"0.0.1",
 	"description": "Real-time multi user sketchpad",
 	"dependencies": {
-	    "omni": "= 0.2.5"
+		"omni": "= 0.2.5",
+		"canvas": "*"
   	}
 }

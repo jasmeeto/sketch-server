@@ -1,4 +1,5 @@
 var Drawer = require("../models/drawer");
+var Canvas = require("canvas");
 
 function getRandomColor() {
     var letters = '0123456789ABC'.split('');
@@ -10,6 +11,9 @@ function getRandomColor() {
 }
 
 module.exports = {
+	setCanvas: function(canvas){
+		this.canvas = canvas;
+	},
 	run: function(connection, collections, data){
 		var newID = collections.drawers.nextID();
 
@@ -21,6 +25,15 @@ module.exports = {
 		connection.drawer = newDrawer;
 		collections.drawers.add(newDrawer);
 		connection.recheckAllPermissions();
+
+		if (this.canvas != undefined && data.width != undefined && data.height != undefined){
+			var tempCanvas = new Canvas(data.width,data.height),
+			tmpCtx = tempCanvas.getContext("2d");
+
+			tmpCtx.drawImage(this.canvas, 0, 0);
+
+			return {success: "Logged in!", id: newID, dataURL: tempCanvas.toDataURL()};
+		}
 
 		return {success: "Logged in!", id: newID};
 	}
