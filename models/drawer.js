@@ -15,6 +15,9 @@ module.exports = Omni.Model.extend({
 		return true;
 	},
 	writePermission: function(connection, property){
-		return true;
+        if (connection.drawer === this){
+		    return true;
+        }
+        return false;
 	}
 });
