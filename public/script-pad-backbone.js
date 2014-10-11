@@ -107,6 +107,7 @@ $(function(){
 		onMouseDown: function(event){
 			event = this.findCoords(event);
 			this.pos.clicked = true;
+			this.pos.moving = false;
 			this.pos.x = event.offsetX ? event.offsetX : (event.clientX - event.target.offsetLeft);
 			this.pos.y = event.offsetY ? event.offsetY : (event.clientY - event.target.offsetTop);
 			this.updateMousePosOnModel();
@@ -120,7 +121,7 @@ $(function(){
 			this.pos.moving = true;
 			this.pos.x = event.offsetX ? event.offsetX : (event.clientX - event.target.offsetLeft);
 			this.pos.y = event.offsetY ? event.offsetY : (event.clientY - event.target.offsetTop);
-			this.updateMousePosOnModel(alwaysDraw);
+			this.updateMousePosOnModel();
 
 			event.preventDefault();
 		},
@@ -134,13 +135,8 @@ $(function(){
 				}
 				newAttr.prevX = newAttr.x;
 				newAttr.prevY = newAttr.y;
-
-				if(newAttr.x != this.pos.x || newAttr.y != this.pos.y){
-					newAttr.prevX = newAttr.x;
-					newAttr.prevY = newAttr.y;
-					newAttr.x = this.pos.x;
-					newAttr.y = this.pos.y;
-				}
+				newAttr.x = this.pos.x;
+				newAttr.y = this.pos.y;
 
 				Pad.drawer.set(newAttr);
 			}
@@ -155,7 +151,10 @@ $(function(){
 			var strokeSize = drawer.get('strokeSize');
 
 			if (clicked && !moving){
-				this.context.fillRect(x, y, 5, 5);
+				this.context.beginPath();
+				this.context.arc(x, y, strokeSize/2, 0, 2*Math.PI);
+				this.context.fillStyle = drawer.get('color');
+				this.context.fill();
 			}else if(clicked && moving){
 				this.context.beginPath();
 				this.context.strokeStyle = drawer.get('color');
