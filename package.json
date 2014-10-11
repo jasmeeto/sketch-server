@@ -4,6 +4,6 @@
 	"description": "Real-time multi user sketchpad",
 	"dependencies": {
 		"omni": "= 0.2.5",
-		"canvas": "*"
+		"canvas": "~1.1.6"
   	}
 }
