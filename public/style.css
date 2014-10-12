@@ -73,10 +73,11 @@ a:hover{
 }
 
 .ui .color-pick,
-.ui .full-screen {
+.ui .full-screen,
+.ui .size-pick{
 	display: inline-block;
 	min-width: 50px;
-	height: 50px;
+	height: 55px;
 	border: 1px solid #222;
 	vertical-align: bottom;
 	box-sizing: border-box;
@@ -88,6 +89,37 @@ a:hover{
 
 .full-screen {
 	border: 1px solid #ccc;
+}
+
+.ui .size-pick{
+	min-width: 60px;
+}
+
+.ui .size-container {
+	position: absolute;
+	bottom: 100%;
+	left: -1px;
+	min-width: 60px;
+}
+
+.ui .size {
+	display: list-item;
+	list-style-type: none;
+	border: 1px solid #222;
+	height: 60px;
+	opacity: 0.8;
+}
+
+.sizeCircle {
+	position: relative;
+	top: 50%;
+	left: 50%;
+	-moz-transform: translateX(-50%) translateY(-50%);
+	-webkit-transform: translateX(-50%) translateY(-50%);
+	transform: translateX(-50%) translateY(-50%);
+	border-radius: 50%;
+	border: 1px solid #000;
+	behavior: url(PIE.htc);
 }
 
 .overlay {

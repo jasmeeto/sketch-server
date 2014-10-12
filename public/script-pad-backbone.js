@@ -1,6 +1,7 @@
 $(function(){
 	var Pad = {
 		drawer: null,
+		backColor: "#F1F1F1",
 		events: {},
 		on: function(event, callback){
 			if (this.events[event] == null){
@@ -37,6 +38,8 @@ $(function(){
 						if(data.error != undefined) alert(data.error);
 						if(data.success != undefined && data.id != undefined){
 							Pad.drawer = Omni.Collections.drawers.findWhere({id: data.id});
+							Pad.drawer.on("change", _this.resetBrushColorsAndSizes.bind(_this));
+
 							Omni.Collections.drawers.each(function(drawer) {
 								drawer.on("change", _this.renderDrawer.bind(_this, drawer));
 							});
@@ -49,7 +52,7 @@ $(function(){
 							if(data.dataURL != undefined){
 								_this.loadCanvas(data.dataURL);
 							}
-							$(".overlay").remove();
+							_this.initAfterOmniReady();
 						}
 					}
 				);
@@ -86,7 +89,7 @@ $(function(){
 			imageObj.src = dataURL;
 		},
 		clearCanvas: function() {
-			this.context.fillStyle = "#F1F1F1";
+			this.context.fillStyle = Pad.backColor;
 			this.context.fillRect(0,0, this.context.canvas.width, this.context.canvas.height);
 		},
 		resizeCanvas: function() {
@@ -171,6 +174,26 @@ $(function(){
 				this.context.lineTo(x,y);
 				this.context.stroke();
 			}
+		},
+		initAfterOmniReady: function(){
+			$(".overlay").remove();
+			this.resetBrushColorsAndSizes();
+		},
+		resetBrushColorsAndSizes: function(){
+			$(".size > .sizeCircle").each(function(){
+				var strokeSize = $(this).parent(".size").data('strokeSize');
+				$(this).css({
+					width: strokeSize + 'px',
+					height: strokeSize + 'px',
+					background: Pad.drawer.get('color')
+				});
+			});
+			$(".size-pick > .sizeCircle").css({
+				width: Pad.drawer.get('strokeSize') + 'px',
+				height: Pad.drawer.get('strokeSize') + 'px',
+				background: Pad.drawer.get('color'),
+				top: '30%'
+			});
 		}
 	});
 
@@ -186,8 +209,22 @@ $(function(){
 	$(".color-pick").on("click", function() {
 		if (Pad.drawer) {
 			Pad.drawer.set('color', $(this).data('color'));
-			Pad.drawer.set('strokeSize', $(this).data('strokeSize'));
 		}
+	});
+
+	// Setup the size picker
+	$(".size").hide();
+	$(".size-pick").append("<div class='sizeCircle'></div>");
+	$(".size").append("<div class='sizeCircle'></div>");
+	$(".size").css('background', Pad.backColor);
+
+
+	$(".size-pick").on("click", function() {
+		$(".size").animate({height: 'toggle'}, 200);
+	});
+
+	$(".size").on("click", function(event) {
+		Pad.drawer.set('strokeSize', $(this).data('strokeSize'));
 	});
 
 	$(".full-screen").on("click", function() {
