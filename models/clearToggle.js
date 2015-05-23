@@ -2,15 +2,8 @@ var Omni = require("omni");
 
 module.exports = Omni.Model.extend({
 	defaults: {
-		x:0,
-		room:"",
-		y:0,
-		prevX:0,
-		prevY:0,
-		clicked: false,
-		moving: false,
-		color: "#FFF",
-		strokeSize: 20.0
+        clear: false,
+		room:""
 	},
 	readPermission: function(connection, property){
         if (connection.room != undefined &&
@@ -20,9 +13,6 @@ module.exports = Omni.Model.extend({
 		return false;
 	},
 	writePermission: function(connection, property){
-        if (connection.drawer === this){
-		    return true;
-        }
         return false;
 	}
 });

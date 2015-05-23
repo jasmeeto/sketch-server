@@ -1,6 +1,7 @@
 $(function(){
 	var Pad = {
 		drawer: null,
+        room: null,
 		backColor: "#F1F1F1",
 		events: {},
 		on: function(event, callback){
@@ -27,17 +28,24 @@ $(function(){
 			"touchstart #sketchcan": "onMouseDown",
 			"touchend #sketchcan": "onMouseUp",
 			"touchmove #sketchcan": "onMouseMove",
-			"click #b_clear": "handleClear"
+			"click #b_clear": "handleClear",
+			"click #b_close": "handleClose"
 		},
 		initialize: function(){
 			var _this = this;
+            this.room = window.location.pathname.split('/')[1];
 
 			Omni.ready(function() {
-				Omni.trigger("enter",{width: _this.context.canvas.width, height: _this.context.canvas.height},
+				Omni.trigger("enter",
+                    {
+                        width: _this.context.canvas.width,
+                        height: _this.context.canvas.height,
+                        room: _this.room
+                    },
 					function(data){
 						if(data.error != undefined) alert(data.error);
-						if(data.success != undefined && data.id != undefined){
-							Pad.drawer = Omni.Collections.drawers.findWhere({id: data.id});
+						if(data.success != undefined && data.id != undefined && data.room != undefined){
+							Pad.drawer = Omni.Collections.drawers.findWhere({room: data.room, id: data.id});
 							Pad.drawer.on("change", _this.resetBrushColorsAndSizes.bind(_this));
 
 							Omni.Collections.drawers.each(function(drawer) {
@@ -76,7 +84,14 @@ $(function(){
 			this.resizeTimer = null;
 		},
         handleClear: function(){
-            Omni.trigger('clear');
+            Omni.trigger('clear', {room: this.room});
+        },
+        handleClose: function(){
+            if(!confirm('Are you sure you want to close the room')) return;
+            Omni.trigger('closeRoom', {room: this.room}, function(data){
+				if(data.error != undefined) alert(data.error);
+                window.location.href = '/';
+            });
         },
         loadCanvas: function(dataURL) {
 			// load image from data url

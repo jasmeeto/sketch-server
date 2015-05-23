@@ -1,0 +1,55 @@
+<!doctype html>
+<html>
+<head>
+    <title>Sketch Server</title>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="http://underscorejs.org/underscore-min.js"></script>
+    <script src="http://backbonejs.org/backbone-min.js"></script>
+    <script src="/omni.js"></script>
+
+	<script type="text/javascript" src="/static/script-pad-backbone.js"></script>
+	<!-- <script type="text/javascript" src="pad.js"></script> -->
+	<link rel="stylesheet" href="/static/style.css"/>
+    <meta name="viewport" content="user-scalable=no">
+</head>
+<body>
+    <div class="sketch-container">
+        <div class="header">
+            <a id="b_clear" class="button no-select">Clear</a>
+            <a id="b_close" class="button no-select">Close Room</a>
+            <h1 class="no-select">Sketch Pad</h1>
+        </div>
+        <div class="canvas-container">
+            <canvas id="sketchcan">
+                Your browser doesnt support HTML5 canvas
+            </canvas>
+        </div>
+        <div class="ui">
+            <div class="size-pick">
+                <div class="size-container">
+                    <div class="size" data-stroke-size="4"></div>
+                    <div class="size" data-stroke-size="8"></div>
+                    <div class="size" data-stroke-size="16"></div>
+                    <div class="size" data-stroke-size="22"></div>
+                    <div class="size" data-stroke-size="32"></div>
+                    <div class="size" data-stroke-size="45"></div>
+                </div>
+            </div>
+            <div class="color-pick" data-color="#c22"></div>
+            <div class="color-pick" data-color="#2c2"></div>
+            <div class="color-pick" data-color="#22c"></div>
+            <div class="color-pick" data-color="#2cc"></div>
+            <div class="color-pick" data-color="#cc2"></div>
+            <div class="color-pick" data-color="#c2c"></div>
+            <div class="color-pick" data-color="#222"></div>
+            <div class="color-pick" data-color="#f1f1f1"></div>
+
+            <div class="full-screen">Full-screen</div>
+        </div>
+        <div class="overlay">
+            <div class="loading">Loading ...</div>
+        </div>
+    </div>
+</body>
+</html>

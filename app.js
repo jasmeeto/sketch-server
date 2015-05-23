@@ -1,55 +1,31 @@
 var Omni = require("omni");
+var SketchServer = require("./sketchserver");
+var Rooms = require("./collections/rooms");
 var Drawers = require("./collections/drawers");
-var Canvas = require("canvas"),
-	canvas = new Canvas(2000,2000),
-	ctx = canvas.getContext("2d");
+var ClearToggle = require("./models/clearToggle");
+var express = require('express');
+var path = require("path");
 
+var rooms = new Rooms();
 var drawers = new Drawers();
+var clearToggle = new Omni.Collection([], {model:ClearToggle});
 
-var collections = {
+collections = {
+    rooms: rooms,
     drawers: drawers,
-    clearToggle: new Omni.Collection({clear:false})
+    clearToggle: clearToggle
 }
 
-var events = {
+events = {
     clear: require("./events/clear"),
-	enter: require("./events/enter"),
-	disconnect: require("./events/disconnect")
+    enter: require("./events/enter")(),
+    disconnect: require("./events/disconnect"),
+    closeRoom: require("./events/closeRoom"),
+    newRoom: require("./events/newRoom")(),
 }
 
-drawers.on("add", function(curDrawer) {
-	curDrawer.on("change", function(drawer){
-		var x = drawer.get('x');
-		var y = drawer.get('y');
-		var prevX = drawer.get('prevX');
-		var prevY = drawer.get('prevY');
-		var clicked = drawer.get('clicked');
-		var moving = drawer.get('moving');
-		var strokeSize = drawer.get('strokeSize');
-		if (clicked && !moving){
-			ctx.beginPath();
-			ctx.arc(x, y, strokeSize/2, 0, 2*Math.PI);
-			ctx.fillStyle = drawer.get('color');
-			ctx.fill();
-		}else if(clicked && moving){
-			ctx.beginPath();
-			ctx.strokeStyle = drawer.get('color');
-			ctx.lineWidth = strokeSize;
-			ctx.lineCap = "round";
-			ctx.lineJoin = "round";
+var server =  Omni.listen(process.env.port || 5000, collections, events);
+exports.server = server;
 
-			ctx.moveTo(prevX,prevY);
-			ctx.lineTo(x,y);
-			ctx.stroke();
-		}
-	});
-});
-
-collections.clearToggle.on("change", function(clear) {
-	canvas.width = canvas.width;
-});
-
-events.enter.setCanvas(canvas);
-
-var server = Omni.listen(process.env.PORT || 5000, collections, events);
-
+server.express.use(express.static(path.resolve(path.dirname(require.main.filename), 'public')));
+server.express.use('/static', express.static(path.resolve(path.dirname(require.main.filename), 'sketch_public')));

@@ -1,0 +1,155 @@
+* {
+	margin: 0;
+	padding: 0;
+}
+
+html, body{
+	width:100%;
+	height:100%;
+	font-family: Arial, Helvetica, sans-serif;
+	background: #444;
+	overflow: hidden;
+}
+
+canvas {
+	border:1px #e1e1e1 solid;
+	position:absolute;
+	top: 0;
+	left: 0;
+	z-index: 1;
+	cursor: default;
+	display: block;
+}
+
+.header h1, .button{
+	position: absolute;
+    top: 2%;
+    left: 50%;
+}
+
+h1{
+	color: #FFF;
+    margin: 0 0 0 -80px;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover{
+	cursor: pointer;
+}
+
+#b_clear {
+	position: absolute;
+	top: 5px;
+	left: 5px;
+	z-index: 2;
+}
+
+#b_close {
+	position: absolute;
+	top: 5px;
+	right: 5px;
+	left: initial;
+	z-index: 2;
+}
+
+.no-select {
+	user-select: none;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+}
+
+.button {
+	padding: 10px 5px;
+	background: #4479BA;
+	border-radius: 4px;
+	border: solid 1px #20538D;
+	color: #FFF;
+	font-weight: bold;
+    left: 19%;
+}
+
+.ui {
+	width: 100%;
+	position: absolute;
+	bottom: 5px;
+	left: 5px;
+	z-index: 2;
+	font-size: 0;
+}
+
+.ui .color-pick,
+.ui .full-screen,
+.ui .size-pick{
+	display: inline-block;
+	min-width: 50px;
+	height: 55px;
+	border: 1px solid #222;
+	vertical-align: bottom;
+	box-sizing: border-box;
+	font-size: 12px;
+	padding: 16px 5px 0 5px;
+	margin-right: -1px;
+	cursor: pointer;
+}
+
+.full-screen {
+	border: 1px solid #ccc;
+}
+
+.ui .size-pick{
+	min-width: 60px;
+}
+
+.ui .size-container {
+	position: absolute;
+	bottom: 100%;
+	left: -1px;
+	min-width: 60px;
+}
+
+.ui .size {
+	display: list-item;
+	list-style-type: none;
+	border: 1px solid #222;
+	height: 60px;
+	opacity: 0.8;
+}
+
+.sizeCircle {
+	position: relative;
+	top: 50%;
+	left: 50%;
+	-moz-transform: translateX(-50%) translateY(-50%);
+	-webkit-transform: translateX(-50%) translateY(-50%);
+	transform: translateX(-50%) translateY(-50%);
+	border-radius: 50%;
+	border: 1px solid #000;
+	behavior: url(PIE.htc);
+}
+
+.overlay {
+	display: inline-block;
+	position: absolute;
+	left: 0;
+	top: 0;
+	bottom: 0;
+	right: 0;
+	background: #000;
+	opacity: 0.6;
+	z-index: 3;
+}
+
+.overlay .loading {
+	font-size: 1.5em;
+	font-weight: bold;
+	position: absolute;
+	min-width: 50px;
+	height: 50px;
+	top: 45%;
+	left: 45%;
+	color: #FFF;
+	z-index: 3;
+}
