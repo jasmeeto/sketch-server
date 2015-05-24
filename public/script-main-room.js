@@ -19,8 +19,6 @@ $(function(){
                     _this.removeRoomFromList(room);
                 });
 
-                console.log("het");
-
                 _this.initAfterOmniReady();
 			});
 		},
