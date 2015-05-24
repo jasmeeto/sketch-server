@@ -27,7 +27,7 @@ events = {
     newRoom: require("./events/newRoom")(),
 }
 
-var server =  Omni.listen(process.env.port || 5000, collections, events);
+var server =  Omni.listen(process.env.PORT || 5000, collections, events);
 exports.server = server;
 
 server.express.use(express.static(path.resolve(path.dirname(require.main.filename), 'public')));
