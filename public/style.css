@@ -8,13 +8,35 @@ html, body{
 	height:100%;
 	font-family: Arial, Helvetica, sans-serif;
 	background: #eee;
-	overflow: hidden;
+	overflow-x: hidden;
+	overflow-y: scroll;
 }
 
-.header h1, .button{
-	position: absolute;
-    top: 2%;
-    left: 50%;
+.header{
+    display:block;
+}
+
+.ui {
+    top: 10%;
+    position: absolute;
+    left: 20%;
+    width: 60%;
+}
+
+.ui h1{
+}
+
+ul {
+    list-style-type: none
+}
+
+.room-list > li{
+    display: block;
+    background-color: #ddd;
+    padding: 15px;
+    box-shadow: inset 0 1px 0 #fff;
+    margin: 0px 0px 10px 0px;
+    cursor: pointer;
 }
 
 .overlay {
@@ -42,12 +64,55 @@ html, body{
 }
 
 #b_new {
-	position: absolute;
-	top: 5px;
-	left: 5px;
-	z-index: 2;
+	/*position: absolute;*/
+	/*top: 5px;*/
+	/*left: 5px;*/
+	/*z-index: 2;*/
 }
 
+#p_toggle_form{
+    position:relative;
+    display:inline-flex;
+}
+
+#p_toggle_form label:hover{
+	cursor: pointer;
+}
+
+#p_toggle_form label{
+	cursor: pointer;
+    margin-right:0;
+    margin-left:0;
+    margin-bottom:10px;
+    padding:10px 3px;
+	border-radius: 4px;
+    width:50px;
+	border: solid 1px #20538D;
+}
+
+#p_toggle_form input[type=text]{
+    display:block;
+	border-radius: 4px;
+	border: solid 1px #20538D;
+    padding: 12px;
+    margin-left: 50px;
+    height: 100%;
+    right: 10px;
+}
+
+label[for=b_private]{
+	/*position: absolute;*/
+    /*top: 5px;*/
+    /*left: 20px;*/
+	/*z-index: 2;*/
+}
+
+label[for=b_public]{
+	/*position: absolute;*/
+    /*top: 5px;*/
+	/*left: 30px;*/
+	/*z-index: 2;*/
+}
 .no-select {
 	user-select: none;
 	-webkit-user-select: none;
@@ -61,7 +126,9 @@ html, body{
 	border: solid 1px #20538D;
 	color: #FFF;
 	font-weight: bold;
-    left: 19%;
+    margin-bottom: 10px;
+    display:inline-block;
+    position: relative;
 }
 
 a {

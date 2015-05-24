@@ -45,6 +45,9 @@ $(function(){
 					function(data){
 						if(data.error != undefined) alert(data.error);
 						if(data.success != undefined && data.id != undefined && data.room != undefined){
+							var room = Omni.Collections.rooms.findWhere({uid: data.room});
+                            var roomname = room.get("name");
+                            document.title = document.title + " - " + roomname;
 							Pad.drawer = Omni.Collections.drawers.findWhere({room: data.room, id: data.id});
 							Pad.drawer.on("change", _this.resetBrushColorsAndSizes.bind(_this));
 

@@ -6,11 +6,12 @@ var shortid = require("shortid");
 module.exports = function(){
 	return {
 		run: function(connection, collections, data){
+            if(data.isPublic == undefined) return {error: "Need to specify privacy setting!"};
+            if(data.roomname == undefined || data.roomname.length == 0) return {error: "Need to specify room name!"};
 			var newID = collections.rooms.nextID();
             var uid = shortid.generate();
-            console.log(uid);
 
-            var result = SketchServer.startSketch(newID, uid);
+            var result = SketchServer.startSketch(newID, uid, data.isPublic, data.roomname);
 
             if(result.error != undefined)
 			    return result;

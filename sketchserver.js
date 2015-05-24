@@ -9,7 +9,7 @@ var ClearToggle = require("./models/clearToggle");
 var roomToCanvas = {}
 exports.roomToCanvas = roomToCanvas;
 
-exports.startSketch = function(id, uid){
+exports.startSketch = function(id, uid, privacy, roomname){
     var server = app.server;
     var drawers = app.drawers;
 	var Canvas = require("canvas");
@@ -20,7 +20,9 @@ exports.startSketch = function(id, uid){
 
     var room = new Room ({
         id: id,
-        uid: uid
+        uid: uid,
+        name: roomname,
+        isPublic: privacy
     });
 
     var clearToggle = new ClearToggle({clear:false, room:uid});

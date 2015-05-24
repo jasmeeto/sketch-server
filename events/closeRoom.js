@@ -12,7 +12,7 @@ function unmount(expressApp, route){
 }
 
 module.exports = {
-	run: function(connection, collections, data){
+    close: function(collections, data){
         if(data.room == undefined) return {error: "Need to specify roomID!"};
         var roomID = data.room;
         var room = collections.rooms.findWhere({uid: roomID});
@@ -24,9 +24,10 @@ module.exports = {
         unmount(server.express, '/' + roomID);
         collections.rooms.remove(room);
         collections.drawers.remove(drawers);
-
+    },
+	run: function(connection, collections, data){
+        this.close(collections, data);
         connection.recheckAllPermissions();
-
         return {};
 	}
 }

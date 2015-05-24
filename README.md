@@ -4,7 +4,9 @@ A real time multi-user sketch applicaion, implemented in node.js along with Omni
 
 Check out a demo at [http://sketch-server.herokuapp.com/](http://sketch-server.herokuapp.com/). 
 
-Now with room support. To use, click 'New Room' to open up your own private canvas. The redirected unique URL will point to your own personal room that can be accessed by anyone who knows it. Just open two tabs for that URL and draw in realtime.
+## Usage
+
+Now with room support. To use, select privacy, type in a room name and click 'Create New Room' to open up your own canvas. The redirected unique URL will point to your own personal room that can be accessed by anyone who knows it. Just open two tabs for that URL and draw in realtime.
 
 ## Installation
 

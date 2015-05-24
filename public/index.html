@@ -15,8 +15,23 @@
 </head>
 <body>
     <div class="room-container">
-        <div class="header">
-            <a id="b_new" class="button no-select">New Room</a>
+        <div class="ui">
+            <div class="header">
+                <div id="p_toggle"> 
+                    <form id="p_toggle_form" onsubmit="return false;" class=" ">
+                        <input type="radio" name="privacy" id="b_private">
+                        <label for="b_private" class="no-select">Private</label>
+                        <input type="radio" name="privacy" id="b_public">
+                        <label for="b_public" class="no-select">Public</label>
+                        <br />
+                        <input type="text" name="roomname" placeholder="Room Name">
+                    </form>
+                </div>
+                <a id="b_new" class="button no-select">Create New Room</a>
+            </div>
+            <h1 class="no-select">Public Rooms</h1>
+            <ul class="room-list">
+            </ul>
         </div>
         <div class="overlay">
             <div class="loading">Loading ...</div>
